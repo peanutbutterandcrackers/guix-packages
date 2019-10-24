@@ -1,10 +1,11 @@
-(use-modules (guix packages) ;; for (package ...) among others
-             (guix download) ;; for (url-fetch ...)
-             (guix git-download) ;; for (git-reference ...)
-			 (guix build-system perl) ;; the perl build system
-			 (guix licenses) ;; license definitions
-			 (gnu packages perl) ;; for perl-io-stringy
-			 (gnu packages gtk)) ;; for perl-cairo and perl-pango
+(define-module (chordpro)
+  #:use-module (guix packages) ;; for (package ...) among others
+  #:use-module (guix download) ;; for (url-fetch ...)
+  #:use-module (guix git-download) ;; for (git-reference ...)
+  #:use-module (guix build-system perl) ;; the perl build system
+  #:use-module (guix licenses) ;; license definitions
+  #:use-module (gnu packages perl) ;; for perl-io-stringy
+  #:use-module (gnu packages gtk)) ;; for perl-cairo and perl-pango
 
 ;; The following are chordpro's dependencies from CPAN.  Their definitions come
 ;; from `$ guix import cpan PERL::MODULE` with only a few minor manual changes.
@@ -124,37 +125,38 @@
     (description "Interpolated named arguments in string")
     (license perl-license)))
 
-(package
-	(name "chordpro")
-	(version "idk")
-	(source (origin
-				(method git-fetch)
-				(uri (git-reference
-				     (url "https://github.com/ChordPro/chordpro.git")
-				     (commit "64d45f37e4af147461fc4dc44b02fcb199845d79")))
-				(sha256        ;; `$ guix hash -rx .` for the sha256 of git repos
-					(base32    ;; `$ guix download URL` for tar-files
-						"188cz6yz801bz5ihxn02zlnf438pxmsv53h01jmi0sg5vrw1n2mr"))))
-	(build-system perl-build-system)
-	(arguments `(#:tests? #f)) ;; skip tests
-    ;; (propagated-inputs ...) instead of (inputs ...) because these are interpreted
-	;; libraries/modules. Package reference in section 6.2.1 of the  Guix  Reference
-	;; manual has the details. I was using (inputs ...) and chordpro installed suce-
-	;; ssfully but was throwing errors when run because it couldn't find the requir-
-	;; ed modules.
-	(propagated-inputs
-		`(("perl", perl) ;; Because it is needed. But putting this under (input) wasn't notifying
-		  ;; the user about the env vars (`guix package --search-paths`). So, using this  make-do
-		  ;; work-around by keeping it in propagated-inputs. The proper way to do this is through
-		  ;; wrappers (as seen, for instance, in gnu/packages/mail.scm with a `grep PERL5LIB`).
-		  ("perl-cairo" ,perl-cairo)
-		  ("perl-pango" ,perl-pango)
-		  ("perl-app-packager" ,perl-app-packager)
-		  ("perl-file-loadlines" ,perl-file-loadlines)
-		  ("perl-image-info" ,perl-image-info)
-		  ("perl-io-string" ,perl-io-string)
-		  ("perl-string-interpolate-named" ,perl-string-interpolate-named)))
-	(synopsis "Chordpro")
-	(description "Chordpro Pango Branch")
-	(home-page "https://www.chordpro.org/")
-	(license artistic2.0))
+(define-public chordpro
+  (package
+  (name "chordpro")
+  (version "idk")
+  (source (origin
+        (method git-fetch)
+        (uri (git-reference
+             (url "https://github.com/ChordPro/chordpro.git")
+             (commit "64d45f37e4af147461fc4dc44b02fcb199845d79")))
+        (sha256        ;; `$ guix hash -rx .` for the sha256 of git repos
+          (base32    ;; `$ guix download URL` for tar-files
+            "188cz6yz801bz5ihxn02zlnf438pxmsv53h01jmi0sg5vrw1n2mr"))))
+  (build-system perl-build-system)
+  (arguments `(#:tests? #f)) ;; skip tests
+  ;; (propagated-inputs ...) instead of (inputs ...) because these are interpreted
+  ;; libraries/modules. Package reference in section 6.2.1 of the  Guix  Reference
+  ;; manual has the details. I was using (inputs ...) and chordpro installed suce-
+  ;; ssfully but was throwing errors when run because it couldn't find the requir-
+  ;; ed modules.
+  (propagated-inputs
+    `(("perl", perl) ;; Because it is needed. But putting this under (input) wasn't notifying
+      ;; the user about the env vars (`guix package --search-paths`). So, using this  make-do
+      ;; work-around by keeping it in propagated-inputs. The proper way to do this is through
+      ;; wrappers (as seen, for instance, in gnu/packages/mail.scm with a `grep PERL5LIB`).
+      ("perl-cairo" ,perl-cairo)
+      ("perl-pango" ,perl-pango)
+      ("perl-app-packager" ,perl-app-packager)
+      ("perl-file-loadlines" ,perl-file-loadlines)
+      ("perl-image-info" ,perl-image-info)
+      ("perl-io-string" ,perl-io-string)
+      ("perl-string-interpolate-named" ,perl-string-interpolate-named)))
+  (synopsis "Chordpro")
+  (description "Chordpro Pango Branch")
+  (home-page "https://www.chordpro.org/")
+  (license artistic2.0)))
