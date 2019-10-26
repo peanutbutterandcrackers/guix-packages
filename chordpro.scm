@@ -83,28 +83,6 @@
 
 (define perl-string-interpolate-named
   (package
-    (name "perl-io-string")
-    (version "1.08")
-    (source
-      (origin
-        (method url-fetch)
-        (uri (string-append
-               "mirror://cpan/authors/id/G/GA/GAAS/IO-String-"
-               version
-               ".tar.gz"))
-        (sha256
-          (base32
-            "18755m410yl70s17rgq3m0hyxl8r5mr47vsq1rw7141d8kc4lgra"))))
-    (build-system perl-build-system)
-    (home-page
-      "https://metacpan.org/release/IO-String")
-    (synopsis
-      "Emulate file interface for in-core strings")
-    (description "Emulate file interface for in-core strings")
-    (license perl-license)))
-
-(define perl-string-interpolate-named
-  (package
     (name "perl-string-interpolate-named")
     (version "0.05")
     (source
