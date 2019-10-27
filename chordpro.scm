@@ -165,6 +165,7 @@
         (uri (git-reference
              (url "https://github.com/ChordPro/chordpro.git")
              (commit "03c72e8e651bca0f24ee6d8b59e61750fe10f8b7")))
+        (file-name (git-file-name name version))
         (sha256        ;; `$ guix hash -rx .` for the sha256 of git repos
           (base32    ;; `$ guix download URL` for tar-files
             "14770w94p1granp1b8f2bra1kf44xxv5gklm3ccmf1qs9pgy5wxp"))))
@@ -178,10 +179,11 @@
   ;; ssfully but was throwing errors when run because it couldn't find the requir-
   ;; ed modules.
   (propagated-inputs
-    `(("perl", perl) ;; Because it is needed. But putting this under (input) wasn't notifying
-      ;; the user about the env vars (`guix package --search-paths`). So, using this  make-do
-      ;; work-around by keeping it in propagated-inputs. The proper way to do this is through
-      ;; wrappers (as seen, for instance, in gnu/packages/mail.scm with a `grep PERL5LIB`).
+    `(("perl", perl) ;; Because it is needed. But putting this under (input) was
+      ;; not notifying the user about the env vars (`guix package --search-paths`
+      ;; ). So, using this  make-do work-around by keeping it in propagated-input
+      ;; s. The proper way to do this is through wrappers (as seen, for instance,
+      ;; in gnu/packages/mail.scm with a `grep PERL5LIB`).
       ("perl-cairo" ,perl-cairo)
       ("perl-pango" ,perl-pango)
       ("perl-app-packager" ,perl-app-packager)
@@ -189,7 +191,7 @@
       ("perl-pdf-api2" ,perl-pdf-api2)
       ("perl-image-info" ,perl-image-info)
       ("perl-string-interpolate-named" ,perl-string-interpolate-named)))
-  (synopsis "A simple text format for the notation of lyrics with chords")
+  (synopsis "Simple text format for the notation of lyrics with chords")
   (description "Chordpro Dev Branch")
   (home-page "https://www.chordpro.org/")
   (license artistic2.0)))
