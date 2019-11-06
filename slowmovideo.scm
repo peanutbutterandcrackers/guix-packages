@@ -37,9 +37,6 @@
 	    ("qtbase" ,qtbase)
 	    ("qtscript" ,qtscript)
 	    ("opencv" ,opencv)))
-	(propagated-inputs
-	  `(("python" ,python)
-	    ("perl" ,perl)))
     (synopsis "Create slow-motion videos from your footage")
     (description synopsis)
     (home-page "http://slowmovideo.granjow.net/")
