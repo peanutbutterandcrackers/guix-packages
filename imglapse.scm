@@ -39,24 +39,16 @@
 				(mkdir-p out-dir) ;; create %outputs_out/bin. Why?
 				;; <mange> When the package gets installed into a profile it effectively just gets merged into the profile at the root, which means the /bin directory goes to ~/.guix-profile/bin (in the default user profile). When you source ~/.guix-profile/etc/profile it adds ~/.guix-profile/bin to your PATH, which then lets you run the imglapse script as just "imglapse".
 			    (copy-file in out)
-                ;; the following doesn't work: might have to do (invoke (string-append coreutils "/bin/ls"))
-				;;(invoke "ls" "-R")
-				(substitute* out
-				  (("/bin/bash")
-				   (string-append bash "/bin/bash"))
-				  (("ffmpeg")
-				   (string-append ffmpeg "/bin/ffmpeg"))
-				  (("cat")
-				   (string-append coreutils "/bin/cat"))
-				  (("echo")
-				   (string-append coreutils "/bin/echo"))
-				  (("dirname")
-				   (string-append coreutils "/bin/dirname"))
-				  (("basename")
-				   (string-append coreutils "/bin/basename"))
-				  (("less")
-				   (string-append less "/bin/less"))))
-				#t)))
+				;; iyzsong: both 'patch-shebang' and 'wrap-program' expect bash in 'PATH'
+				;; efraim: if PATH is empty you need to pass a list of dirs [to (wrap-program)], like dehydrated in gnu/packages/tls.scm
+				(setenv "PATH" (string-append bash "/bin"))
+				(patch-shebang out)
+				(wrap-program out
+				  `("PATH" ":" prefix
+					 ,(map (lambda (dir)
+					   (string-append dir "/bin"))
+					     (list ffmpeg less coreutils))))
+			    #t))))
 	(inputs
 		`(("bash" ,bash)
 		  ("less" ,less)
