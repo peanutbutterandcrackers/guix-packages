@@ -34,6 +34,7 @@
 					 (bash (assoc-ref %build-inputs "bash"))
 					 (ffmpeg (assoc-ref %build-inputs "ffmpeg"))
 					 (less (assoc-ref %build-inputs "less"))
+					 (sed (assoc-ref %build-inputs "sed"))
 					 (coreutils (assoc-ref %build-inputs "coreutils")))
 			    (format #t "Copying ~a -> ~a~%" in out)
 				(mkdir-p out-dir) ;; create %outputs_out/bin. Why?
@@ -47,12 +48,13 @@
 				  `("PATH" ":" prefix
 					 ,(map (lambda (dir)
 					   (string-append dir "/bin"))
-					     (list ffmpeg less coreutils))))
+					     (list ffmpeg less sed coreutils))))
 			    #t))))
 	(inputs
 		`(("bash" ,bash)
 		  ("less" ,less)
 		  ("ffmpeg" ,ffmpeg)
+		  ("sed" ,sed)
 		  ("coreutils" ,coreutils)))
 	(synopsis "Create Timelapses on GNU/Linux")
 	(description synopsis)
