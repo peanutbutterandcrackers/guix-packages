@@ -32,6 +32,21 @@
                                 (lambda _
                                   (copy-recursively (assoc-ref %build-inputs "libsvflow")
                                                     "src/lib/libsvflow")))
+                     (add-after 'install 'wrap-prog
+                                (lambda _
+                                  (let* ((out (assoc-ref %outputs "out"))
+                                         (bin (string-append out "/bin")))
+                                    (for-each
+                                     (lambda (prog)
+                                       (wrap-program prog
+                                                     `("PATH" ":" prefix
+                                                       ,(map
+                                                         (lambda (inpt)
+                                                           (string-append (assoc-ref %build-inputs inpt)
+                                                                          "/bin"))
+                                                         '("ffmpeg")))))
+                                     (find-files bin "."))
+                                    #t))))))
    (inputs
     `(("ffmpeg" ,ffmpeg)
       ("qtbase" ,qtbase)
