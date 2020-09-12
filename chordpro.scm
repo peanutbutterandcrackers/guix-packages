@@ -6,6 +6,7 @@
   #:use-module (guix licenses)
   #:use-module (gnu packages perl)
   #:use-module (gnu packages perl-check)
+  #:use-module (gnu packages glib)
   #:use-module (gnu packages gtk))
 
 (define perl-app-packager
@@ -157,7 +158,12 @@
                                                   "perl-file-loadlines"
                                                   "perl-pdf-api2"
                                                   "perl-image-info"
-                                                  "perl-string-interpolate-named"))
+                                                  "perl-string-interpolate-named"
+                                                  ;; The Missing Links
+                                                  ;; See the (inputs) section
+                                                  "perl-glib"
+                                                  "perl-font-ttf"
+                                                  "perl-io-stringy"))
                                                 (list
                                                  (string-append
                                                   out "/lib/perl5/site_perl"))))))
@@ -172,7 +178,13 @@
       ("perl-file-loadlines" ,perl-file-loadlines)
       ("perl-pdf-api2" ,perl-pdf-api2)
       ("perl-image-info" ,perl-image-info)
-      ("perl-string-interpolate-named" ,perl-string-interpolate-named)))
+      ("perl-string-interpolate-named" ,perl-string-interpolate-named)
+      ;; The following are the-missing-links: propagated-inputs of the
+      ;; direct/first dependencies of chordpro. The adjacent comments
+      ;; tell which dependency they are a propagated-input of.
+      ("perl-glib" ,perl-glib) ;; perl-cairo
+      ("perl-font-ttf" ,perl-font-ttf) ;; perl-pdf-api2
+      ("perl-io-stringy" ,perl-io-stringy))) ;; perl-image-info
    (synopsis "Simple text format for the notation of lyrics with chords")
    (description "Chordpro Dev Branch")
    (home-page "https://www.chordpro.org/")
