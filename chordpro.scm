@@ -126,7 +126,7 @@
    (source (origin
             (method git-fetch)
             (uri (git-reference
-                  (url "https://github.com/ChordPro/chordpro.git")
+                  (url "https://github.com/ChordPro/chordpro")
                   (commit "03c72e8e651bca0f24ee6d8b59e61750fe10f8b7")))
             (file-name (git-file-name name version))
             (sha256
@@ -139,23 +139,28 @@
                      (add-after 'install 'wrap
                                 (lambda* (#:key inputs outputs #:allow-other-keys)
                                          (let* ((out (assoc-ref outputs "out")))
-                                           (wrap-program (string-append out "/bin/chordpro")
-                                                         `("PERL5LIB" ":" prefix
-                                                           ,(append
-                                                             (map (lambda (input)
-                                                                    (string-append
-                                                                     (assoc-ref inputs input)
-                                                                     "/lib/perl5/site_perl"))
-                                                                  (list
-                                                                   "perl-cairo"
-                                                                   "perl-pango"
-                                                                   "perl-app-packager"
-                                                                   "perl-file-loadlines"
-                                                                   "perl-pdf-api2"
-                                                                   "perl-image-info"
-                                                                   "perl-string-interpolate-named"))
-                                                             (list
-                                                              (string-append out "/lib/perl5/site_perl"))))))
+                                           (wrap-program
+                                            (string-append
+                                             out
+                                             "/bin/chordpro")
+                                            `("PERL5LIB" ":" prefix
+                                              ,(append
+                                                (map
+                                                 (lambda (input)
+                                                   (string-append
+                                                    (assoc-ref inputs input)
+                                                    "/lib/perl5/site_perl"))
+                                                 (list
+                                                  "perl-cairo"
+                                                  "perl-pango"
+                                                  "perl-app-packager"
+                                                  "perl-file-loadlines"
+                                                  "perl-pdf-api2"
+                                                  "perl-image-info"
+                                                  "perl-string-interpolate-named"))
+                                                (list
+                                                 (string-append
+                                                  out "/lib/perl5/site_perl"))))))
                                          #t)))))
    (native-inputs
     `(("perl-cpan-changes" ,perl-cpan-changes)
