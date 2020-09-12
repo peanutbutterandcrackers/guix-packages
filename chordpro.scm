@@ -133,12 +133,35 @@
 	     (base32
 	      "14770w94p1granp1b8f2bra1kf44xxv5gklm3ccmf1qs9pgy5wxp"))))
    (build-system perl-build-system)
+   (arguments
+    `(#:phases
+      (modify-phases %standard-phases
+		     (add-after 'install 'wrap
+				(lambda* (#:key inputs outputs #:allow-other-keys)
+					 (let* ((out (assoc-ref outputs "out")))
+					   (wrap-program (string-append out "/bin/chordpro")
+							 `("PERL5LIB" ":" prefix
+							   ,(append
+							     (map (lambda (input)
+								    (string-append
+								     (assoc-ref inputs input)
+								     "/lib/perl5/site_perl"))
+								  (list
+								   "perl-cairo"
+								   "perl-pango"
+								   "perl-app-packager"
+								   "perl-file-loadlines"
+								   "perl-pdf-api2"
+								   "perl-image-info"
+								   "perl-string-interpolate-named"))
+							     (list
+							      (string-append out "/lib/perl5/site_perl"))))))
+					 #t)))))
    (native-inputs
     `(("perl-cpan-changes" ,perl-cpan-changes)
       ("perl-text-layout"  ,perl-text-layout)))
-   (propagated-inputs
-    `(("perl", perl)
-      ("perl-cairo" ,perl-cairo)
+   (inputs
+    `(("perl-cairo" ,perl-cairo)
       ("perl-pango" ,perl-pango)
       ("perl-app-packager" ,perl-app-packager)
       ("perl-file-loadlines" ,perl-file-loadlines)
