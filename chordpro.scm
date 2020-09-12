@@ -144,29 +144,10 @@
                                             (string-append
                                              out
                                              "/bin/chordpro")
-                                            `("PERL5LIB" ":" prefix
-                                              ,(append
-                                                (map
-                                                 (lambda (input)
-                                                   (string-append
-                                                    (assoc-ref inputs input)
-                                                    "/lib/perl5/site_perl"))
-                                                 (list
-                                                  "perl-cairo"
-                                                  "perl-pango"
-                                                  "perl-app-packager"
-                                                  "perl-file-loadlines"
-                                                  "perl-pdf-api2"
-                                                  "perl-image-info"
-                                                  "perl-string-interpolate-named"
-                                                  ;; The Missing Links
-                                                  ;; See the (inputs) section
-                                                  "perl-glib"
-                                                  "perl-font-ttf"
-                                                  "perl-io-stringy"))
-                                                (list
-                                                 (string-append
-                                                  out "/lib/perl5/site_perl"))))))
+                                            `("PERL5LIB" ":" =
+                                              (,(getenv "PERL5LIB")
+                                               ,(string-append
+                                                 out "/lib/perl5/site_perl")))))
                                          #t)))))
    (native-inputs
     `(("perl-cpan-changes" ,perl-cpan-changes)
