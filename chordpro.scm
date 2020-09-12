@@ -16,9 +16,9 @@
     (origin
      (method url-fetch)
      (uri (string-append
-	   "mirror://cpan/authors/id/J/JV/JV/App-Packager-"
-	   version
-	   ".tar.gz"))
+           "mirror://cpan/authors/id/J/JV/JV/App-Packager-"
+           version
+           ".tar.gz"))
      (sha256
       (base32
        "18vlwf5qsmw64kr0mc84cn55nm72s4aqdz9dxpigk1w38lad1x2p"))))
@@ -37,9 +37,9 @@
     (origin
      (method url-fetch)
      (uri (string-append
-	   "mirror://cpan/authors/id/J/JV/JV/File-LoadLines-"
-	   version
-	   ".tar.gz"))
+           "mirror://cpan/authors/id/J/JV/JV/File-LoadLines-"
+           version
+           ".tar.gz"))
      (sha256
       (base32
        "0yvbwj5mi83f95zrlyb0dga66ds8yyc70w50r79lssbvrwqiq35b"))))
@@ -58,9 +58,9 @@
     (origin
      (method url-fetch)
      (uri (string-append
-	   "mirror://cpan/authors/id/S/SR/SREZIC/Image-Info-"
-	   version
-	   ".tar.gz"))
+           "mirror://cpan/authors/id/S/SR/SREZIC/Image-Info-"
+           version
+           ".tar.gz"))
      (sha256
       (base32
        "0kwg9a8in219p4ka1ykzdfcfpfpkc979ffmccg6w3cvi7w65djib"))))
@@ -82,9 +82,9 @@
     (origin
      (method url-fetch)
      (uri (string-append
-	   "mirror://cpan/authors/id/J/JV/JV/String-Interpolate-Named-"
-	   version
-	   ".tar.gz"))
+           "mirror://cpan/authors/id/J/JV/JV/String-Interpolate-Named-"
+           version
+           ".tar.gz"))
      (sha256
       (base32
        "106mkhkd1x463dczjcs0hv4k7604xdd0hlwpy8yhk5gfbiirxjc4"))))
@@ -104,9 +104,9 @@
     (origin
      (method url-fetch)
      (uri (string-append
-	   "mirror://cpan/authors/id/J/JV/JV/Text-Layout-"
-	   version
-	   ".tar.gz"))
+           "mirror://cpan/authors/id/J/JV/JV/Text-Layout-"
+           version
+           ".tar.gz"))
      (sha256
       (base32
        "02i5w42ypc9lbqvwqcsyzdnfy7xn7pvfql7lla1giwlzn4b0a8sw"))))
@@ -124,39 +124,39 @@
    (name "chordpro")
    (version "0.974_017")
    (source (origin
-	    (method git-fetch)
-	    (uri (git-reference
-		  (url "https://github.com/ChordPro/chordpro.git")
-		  (commit "03c72e8e651bca0f24ee6d8b59e61750fe10f8b7")))
-	    (file-name (git-file-name name version))
-	    (sha256
-	     (base32
-	      "14770w94p1granp1b8f2bra1kf44xxv5gklm3ccmf1qs9pgy5wxp"))))
+            (method git-fetch)
+            (uri (git-reference
+                  (url "https://github.com/ChordPro/chordpro.git")
+                  (commit "03c72e8e651bca0f24ee6d8b59e61750fe10f8b7")))
+            (file-name (git-file-name name version))
+            (sha256
+             (base32
+              "14770w94p1granp1b8f2bra1kf44xxv5gklm3ccmf1qs9pgy5wxp"))))
    (build-system perl-build-system)
    (arguments
     `(#:phases
       (modify-phases %standard-phases
-		     (add-after 'install 'wrap
-				(lambda* (#:key inputs outputs #:allow-other-keys)
-					 (let* ((out (assoc-ref outputs "out")))
-					   (wrap-program (string-append out "/bin/chordpro")
-							 `("PERL5LIB" ":" prefix
-							   ,(append
-							     (map (lambda (input)
-								    (string-append
-								     (assoc-ref inputs input)
-								     "/lib/perl5/site_perl"))
-								  (list
-								   "perl-cairo"
-								   "perl-pango"
-								   "perl-app-packager"
-								   "perl-file-loadlines"
-								   "perl-pdf-api2"
-								   "perl-image-info"
-								   "perl-string-interpolate-named"))
-							     (list
-							      (string-append out "/lib/perl5/site_perl"))))))
-					 #t)))))
+                     (add-after 'install 'wrap
+                                (lambda* (#:key inputs outputs #:allow-other-keys)
+                                         (let* ((out (assoc-ref outputs "out")))
+                                           (wrap-program (string-append out "/bin/chordpro")
+                                                         `("PERL5LIB" ":" prefix
+                                                           ,(append
+                                                             (map (lambda (input)
+                                                                    (string-append
+                                                                     (assoc-ref inputs input)
+                                                                     "/lib/perl5/site_perl"))
+                                                                  (list
+                                                                   "perl-cairo"
+                                                                   "perl-pango"
+                                                                   "perl-app-packager"
+                                                                   "perl-file-loadlines"
+                                                                   "perl-pdf-api2"
+                                                                   "perl-image-info"
+                                                                   "perl-string-interpolate-named"))
+                                                             (list
+                                                              (string-append out "/lib/perl5/site_perl"))))))
+                                         #t)))))
    (native-inputs
     `(("perl-cpan-changes" ,perl-cpan-changes)
       ("perl-text-layout"  ,perl-text-layout)))
