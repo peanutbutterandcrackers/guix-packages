@@ -170,3 +170,34 @@
    (description "Chordpro Dev Branch")
    (home-page "https://www.chordpro.org/")
    (license artistic2.0)))
+
+(define-public chordpro-next
+  (package
+   (inherit chordpro)
+   (name "chordpro-next")
+   (version "0.977")
+   (source (origin
+            (method git-fetch)
+            (uri (git-reference
+                  (url "https://github.com/ChordPro/chordpro")
+                  (commit "c295821a0d047a2afe4370f444bff2cb3f7fbacb")))
+            (file-name (git-file-name name version))
+            (sha256
+             (base32
+              "1im7r5akf86ivyd41wr907br27lghr73c8f62bk7rv83529aczbb"))))
+   (inputs
+    `(("perl-app-packager" ,perl-app-packager)
+      ("perl-file-loadlines" ,perl-file-loadlines)
+      ("perl-pdf-api2" ,perl-pdf-api2)
+      ("perl-image-info" ,perl-image-info)
+      ("perl-string-interpolate-named" ,perl-string-interpolate-named)
+      ("perl-text-layout" ,perl-text-layout)
+      ;; The following are the-missing-links: propagated-inputs of the
+      ;; direct/first dependencies of chordpro. The adjacent comments
+      ;; tell which dependency they are a propagated-input of.
+      ("perl-font-ttf" ,perl-font-ttf) ;; perl-pdf-api2
+      ("perl-io-stringy" ,perl-io-stringy))) ;; perl-image-info
+   (synopsis "Simple text format for the notation of lyrics with chords")
+   (description "Chordpro Dev Branch")
+   (home-page "https://www.chordpro.org/")
+   (license artistic2.0)))
