@@ -100,7 +100,7 @@
 (define perl-text-layout
   (package
    (name "perl-text-layout")
-   (version "0.013")
+   (version "0.019")
    (source
     (origin
      (method url-fetch)
@@ -110,7 +110,7 @@
            ".tar.gz"))
      (sha256
       (base32
-       "02i5w42ypc9lbqvwqcsyzdnfy7xn7pvfql7lla1giwlzn4b0a8sw"))))
+       "13hhlka8vl1q3f8968a8vmgdg3irm0gsgvx94g2jjfqikslg4hx0"))))
    (build-system perl-build-system)
    (native-inputs
     `(("perl-pdf-api2" ,perl-pdf-api2)))
