@@ -115,6 +115,8 @@
    (build-system perl-build-system)
    (native-inputs
     `(("perl-pdf-api2" ,perl-pdf-api2)))
+   (propagated-inputs
+    `(("perl-harfbuzz-shaper" ,perl-harfbuzz-shaper)))
    (home-page
     "https://metacpan.org/release/Text-Layout")
    (synopsis "Pango style markup formatting")
