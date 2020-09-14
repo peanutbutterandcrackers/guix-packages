@@ -233,6 +233,7 @@ programs that need to deal with complex languages like Devanagari, Hebrew or Ara
       ;; direct/first dependencies of chordpro. The adjacent comments
       ;; tell which dependency they are a propagated-input of.
       ("perl-font-ttf" ,perl-font-ttf) ;; perl-pdf-api2
+      ("perl-harfbuzz-shaper" ,perl-harfbuzz-shaper) ;; perl-text-layout
       ("perl-io-stringy" ,perl-io-stringy))) ;; perl-image-info
    (synopsis "Simple text format for the notation of lyrics with chords")
    (description "Chordpro Dev Branch")
