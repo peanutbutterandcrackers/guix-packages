@@ -124,6 +124,40 @@
    (description synopsis)
    (license perl-license)))
 
+(define perl-harfbuzz-shaper
+  (package
+   (name "perl-harfbuzz-shaper")
+   (version "0.023")
+   (source
+    (origin
+     (method url-fetch)
+     (uri (string-append
+           "mirror://cpan/authors/id/J/JV/JV/HarfBuzz-Shaper-"
+           version
+           ".tar.gz"))
+     (sha256
+      (base32
+       "0kcyyvcppk1h3fq9vmndiks6vzyr965vpzfja8p8pymm430616qr"))))
+   (build-system perl-build-system)
+   (arguments
+    ;; See https://github.com/sciurius/perl-HarfBuzz-Shaper/issues/8
+    `(#:make-maker-flags (list (string-append
+                                "LIBS=-L"
+                                (assoc-ref %build-inputs "harfbuzz")
+                                "/lib"
+                                " -lharfbuzz"))))
+   (native-inputs
+    `(("python-2" ,python-2)))
+   (inputs
+    `(("harfbuzz" ,harfbuzz)))
+   (home-page
+    "https://metacpan.org/release/HarfBuzz-Shaper")
+   (synopsis "Use HarfBuzz for text shaping")
+   (description "HarfBuzz::Shaper is a perl module that provides access to a
+small subset of the native HarfBuzz library. The subset is suitable for typesetting
+programs that need to deal with complex languages like Devanagari, Hebrew or Arabic.")
+   (license perl-license)))
+
 (define-public chordpro
   (package
    (name "chordpro")
@@ -175,40 +209,6 @@
    (home-page "https://www.chordpro.org/")
    (license artistic2.0)))
 
-(define perl-harfbuzz-shaper
-  (package
-   (name "perl-harfbuzz-shaper")
-   (version "0.023")
-   (source
-    (origin
-     (method url-fetch)
-     (uri (string-append
-           "mirror://cpan/authors/id/J/JV/JV/HarfBuzz-Shaper-"
-           version
-           ".tar.gz"))
-     (sha256
-      (base32
-       "0kcyyvcppk1h3fq9vmndiks6vzyr965vpzfja8p8pymm430616qr"))))
-   (build-system perl-build-system)
-   (arguments
-    ;; See https://github.com/sciurius/perl-HarfBuzz-Shaper/issues/8
-    `(#:make-maker-flags (list (string-append
-                                "LIBS=-L"
-                                (assoc-ref %build-inputs "harfbuzz")
-                                "/lib"
-                                " -lharfbuzz"))))
-   (native-inputs
-    `(("python-2" ,python-2)))
-   (inputs
-    `(("harfbuzz" ,harfbuzz)))
-   (home-page
-    "https://metacpan.org/release/HarfBuzz-Shaper")
-   (synopsis "Use HarfBuzz for text shaping")
-   (description "HarfBuzz::Shaper is a perl module that provides access to a
-small subset of the native HarfBuzz library. The subset is suitable for typesetting
-programs that need to deal with complex languages like Devanagari, Hebrew or Arabic.")
-   (license perl-license)))
-
 (define-public chordpro-next
   (package
    (inherit chordpro)
@@ -224,7 +224,7 @@ programs that need to deal with complex languages like Devanagari, Hebrew or Ara
              (base32
               "1im7r5akf86ivyd41wr907br27lghr73c8f62bk7rv83529aczbb"))))
    (inputs
-    `(("perl-harfbuzz-shaper" ,perl-harfbuzz-shaper);; perl-text-layout
+    `(("perl-harfbuzz-shaper" ,perl-harfbuzz-shaper) ;; perl-text-layout
       ,@(fold alist-delete
               (package-inputs chordpro)
               (list "perl-cairo"
