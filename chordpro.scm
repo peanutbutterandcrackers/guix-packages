@@ -6,6 +6,7 @@
   #:use-module (guix licenses)
   #:use-module (gnu packages perl)
   #:use-module (gnu packages perl-check)
+  #:use-module (gnu packages python)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages gtk))
 
@@ -170,6 +171,40 @@
    (description "Chordpro Dev Branch")
    (home-page "https://www.chordpro.org/")
    (license artistic2.0)))
+
+(define perl-harfbuzz-shaper
+  (package
+   (name "perl-harfbuzz-shaper")
+   (version "0.023")
+   (source
+    (origin
+     (method url-fetch)
+     (uri (string-append
+           "mirror://cpan/authors/id/J/JV/JV/HarfBuzz-Shaper-"
+           version
+           ".tar.gz"))
+     (sha256
+      (base32
+       "0kcyyvcppk1h3fq9vmndiks6vzyr965vpzfja8p8pymm430616qr"))))
+   (build-system perl-build-system)
+   (arguments
+    ;; See https://github.com/sciurius/perl-HarfBuzz-Shaper/issues/8
+    `(#:make-maker-flags (list (string-append
+                                "LIBS=-L"
+                                (assoc-ref %build-inputs "harfbuzz")
+                                "/lib"
+                                " -lharfbuzz"))))
+   (native-inputs
+    `(("python-2" ,python-2)))
+   (inputs
+    `(("harfbuzz" ,harfbuzz)))
+   (home-page
+    "https://metacpan.org/release/HarfBuzz-Shaper")
+   (synopsis "Use HarfBuzz for text shaping")
+   (description "HarfBuzz::Shaper is a perl module that provides access to a
+small subset of the native HarfBuzz library. The subset is suitable for typesetting
+programs that need to deal with complex languages like Devanagari, Hebrew or Arabic.")
+   (license perl-license)))
 
 (define-public chordpro-next
   (package
