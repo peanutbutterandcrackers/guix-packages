@@ -8,7 +8,7 @@
   #:use-module (gnu packages video))
 
 (define-public imglapse
-  (let ((ver "git-checkout")
+  (let ((ver "0")
         (rev "2")
         (commit "c049a0260aa3294446757fa2fa02b61d99420a19"))
     (package
@@ -37,22 +37,11 @@
                                                   out "/bin/imglapse")))
                                       (wrap-program prog
                                                     `("PATH" ":" suffix
-                                                      ,(map (lambda (inpt)
-                                                              (string-append
-                                                               (assoc-ref
-                                                                %build-inputs
-                                                                inpt)
-                                                               "/bin"))
-                                                            '("ffmpeg"
-                                                              "sed"
-                                                              "coreutils"
-                                                              "less")))))
+                                                      ,(list (getenv "PATH")))))
                                     #t)))))
      (inputs
-      `(("sed" ,sed)
-        ("less" ,less)
-        ("ffmpeg" ,ffmpeg)
-        ("coreutils" ,coreutils)))
+      `(("less" ,less)
+        ("ffmpeg" ,ffmpeg)))
      (synopsis "Create Timelapses on GNU/Linux")
      (description synopsis)
      (home-page "https://github.com/peanutbutterandcrackers/ImgLapse")
