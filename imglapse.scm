@@ -18,7 +18,7 @@
               (method git-fetch)
               (uri (git-reference
                     (url "https://github.com/peanutbutterandcrackers/ImgLapse")
-                    (commit "c049a0260aa3294446757fa2fa02b61d99420a19")))
+                    (commit commit)))
               (sha256
                (base32
                 "04k8fb6qzllk6i3vi7907hpm96sjbnacs607slsbz4rszgwc69jw"))
