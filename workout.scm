@@ -7,8 +7,8 @@
 
 (define-public workout
   (let ((ver "0")
-        (rev "1")
-        (commit "9505051be0b728892cd130c68ee17d6481d5255c"))
+        (rev "2")
+        (commit "edee14300f0a8303c7344aac83cf73ef10c1fe05"))
     (package
      (name "workout")
      (version (git-version ver rev commit))
@@ -19,7 +19,7 @@
                     (commit commit)))
               (sha256
                (base32
-                "05i9jz9kcbmkh8rbpmrr95w2dqy5nfrn9158i29zcxbgl594636g"))
+                "07fiardk4z6wvnkcy1521f8asj6hmhhc678x8kwlqigs65p36l5q"))
               (modules '((guix build utils)))
               (snippet
                '(substitute* "workout.sh"
@@ -49,4 +49,4 @@
      (synopsis "7 minute workout")
      (description "A simple shell script to help you with 7 minute workout.")
      (home-page "https://github.com/vlaube-de/7min-workout")
-     (license #f))))
+     (license expat))))
