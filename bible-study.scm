@@ -1,8 +1,10 @@
 (define-module (bible-study)
   #:use-module (guix packages)
   #:use-module (guix licenses)
+  #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix build-system cmake)
+  #:use-module (guix build-system gnu)
   #:use-module (gnu packages linux))
 
 (define-public biblesync
@@ -28,3 +30,22 @@
 shared co-navigation.")
    (home-page "https://wiki.crosswire.org/BibleSync")
    (license public-domain)))
+
+(define-public sword
+  (package
+   (name "sword")
+   (version "1.8.0")
+   (source (origin
+            (method url-fetch)
+            (uri (string-append "http://crosswire.org/ftpmirror/pub/sword/"
+                                "source/v1.8/sword-1.8.0.tar.gz"))
+            (sha256
+             (base32
+              "0mpry1shj98qc1l22ssfjzvgbn0j3vnl90x465wmrdf0qqiagsxm"))))
+   (build-system gnu-build-system)
+   (synopsis "API/library for bible software")
+   (description "The SWORD Project is an open source, cross-platform API/library
+for Bible software with a constantly growing list of front-ends (GUI, textmode,
+web-based, etc.) and a library of over 200 text modules.")
+   (home-page "http://www.crosswire.org/sword/")
+   (license gpl2)))
