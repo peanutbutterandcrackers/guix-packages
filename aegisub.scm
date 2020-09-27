@@ -1,8 +1,7 @@
 (define-module (aegisub)
+  #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (guix packages)
-  #:use-module (guix store)
-  #:use-module (guix derivations)
   #:use-module (gnu packages video)
   #:use-module (gnu packages linux))
 
@@ -19,24 +18,15 @@
       ("alsa-lib"
        ,(package
          (inherit alsa-lib)
-         (arguments `(,@(cons
-                         (car (package-arguments alsa-lib))
-                         (list (append
-                                (cadr
-                                 (package-arguments alsa-lib))
-                                (list (string-append
-                                       "--with-plugindir="
-                                       ;; set plugin dir to be the "lib/alsa-lib"
-                                       ;; directory of the "pulseaudio" output of
-                                       ;; what will become the /gnu/store path of
-                                       ;; alsa-plugins:pulseaudio.
-                                       (derivation-output-path
-                                        (assoc-ref
-                                         (derivation-outputs
-                                          ((package->derivation alsa-plugins)
-                                           (open-connection)))
-                                         "pulseaudio"))
-				       "/lib/alsa-lib")
-                                       ))))))))
-      ;; alsa-plugins:pulseaudio, of course
-      ("alsa-plugins:pulseaudio" ,alsa-plugins "pulseaudio")))))
+         (arguments
+          (substitute-keyword-arguments
+           (package-arguments alsa-lib)
+           ((#:configure-flags flags)
+            `(cons (string-append
+                    "--with-plugindir="
+                    (assoc-ref %build-inputs "alsa-plugins:pulseaudio")
+                    "/lib/alsa-lib") ,flags))))
+         (inputs
+          ;; Add alsa-plugins:pulseaudio as an input to alsa-lib itself
+          `(("alsa-plugins:pulseaudio" ,alsa-plugins "pulseaudio")
+            ,@(package-inputs alsa-lib)))))))))
